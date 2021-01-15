@@ -10,14 +10,35 @@ class KnightPathFinder
     #     @root_node[row][col].value
     # end
     def new_move_positions(pos)
-        if !@considered_positions.include?(pos)
-            KnightPathFinder.valid_moves(pos)
-        end
+        KnightPathFinder.valid_moves(pos)
     end
     def self.valid_moves(pos) # [4, 3]
-        @considered_positions = [@root_node.value]
+        row, col = pos
+        @considered_positions = []
+        moves = [[+2, +1],
+                [+1, +2],
+                [-2, -1],
+                [-1, -2],
+                [-2, +1],
+                [-1, +2],
+                [+2, -1],
+                [+1, -2]]
+
+        moves.each do |move|
+            new_pos = [move[0]+row, move[1] + col]
+                if valid_position?(new_pos) && !@considered_positions.include?(new_pos)
+                    @considered_positions << new_pos
+                end
+        end
+        return  @considered_positions
     end
     
+    def valid_position?(pos)
+        row, col = pos
+        return false if row < 0 || row > 7
+        return false if col < 0 || row > 7
+        true
+    end
     
     def build_move_tree
         position = @root_node.value
