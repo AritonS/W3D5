@@ -41,7 +41,17 @@ class KnightPathFinder
     end
     
     def build_move_tree
-        position = @root_node.value
-        @root_node.add_child(PolyTreeNode.new([position[0] + 2, position[1] + 1]))
+        tree = [@root_node.value]
+        new_arr = new_move_positions(@root_node.value)
+        until tree.empty?
+            ele = tree.shift
+            new_arr.each do |child|
+                tree << @root_node.add_child(PolyTreeNode.new(child))
+            end
+        end
+
+
+        # position = @root_node.value
+        # @root_node.add_child(PolyTreeNode.new([position[0] + 2, position[1] + 1]))
     end
 end
